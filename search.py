@@ -39,6 +39,9 @@ def main():
     except OSError as error:
         print(f"Could not read file '{filename}': {error}")
         return 1
+    except ValueError as error:
+        print(error)
+        return 1
 
     goal, nodes_created = SEARCH_METHODS[method_name](problem)
 
