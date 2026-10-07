@@ -5,6 +5,7 @@ import sys
 from astar import astar
 from cus1 import cus1
 from dfs import dfs
+from ida_star import ida_star
 from problem import load_problem
 
 
@@ -12,9 +13,9 @@ SEARCH_METHODS = {
     "DFS": dfs,
     "BFS": None,
     "GBFS": None,
-    "AS": astar,
-    "CUS1": cus1,
-    "CUS2": None,
+    "AS": None,
+    "CUS1": None,
+    "CUS2": ida_star,
 }
 
 
