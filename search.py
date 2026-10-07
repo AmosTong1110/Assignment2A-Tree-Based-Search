@@ -5,14 +5,16 @@ import sys
 from astar import astar
 from cus1 import cus1
 from dfs import dfs
+from bfs import bfs
+from gbfs import greedy_best_first
 from ida_star import ida_star
 from problem import load_problem
 
 
 SEARCH_METHODS = {
     "DFS": dfs,
-    "BFS": None,
-    "GBFS": None,
+    "BFS": bfs,
+    "GBFS": greedy_best_first,
     "AS": None,
     "CUS1": None,
     "CUS2": ida_star,
