@@ -4,6 +4,7 @@ import sys
 
 from dfs import dfs
 from bfs import bfs
+from gbfs import gbfs
 from ida_star import ida_star
 from problem import load_problem
 
@@ -11,7 +12,7 @@ from problem import load_problem
 SEARCH_METHODS = {
     "DFS": dfs,
     "BFS": bfs,
-    "GBFS": None,
+    "GBFS": gbfs,
     "AS": None,
     "CUS1": None,
     "CUS2": ida_star,
