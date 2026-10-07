@@ -53,7 +53,7 @@ def depth_limited_search(problem, depth_limit):
     return None, nodes_created, cutoff
 
 
-def cus1(problem):
+def iddfs(problem):
     """Return the first goal node found and the total nodes created.
 
     Nodes created are counted across all iterations, because each

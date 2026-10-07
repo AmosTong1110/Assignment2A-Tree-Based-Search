@@ -3,7 +3,7 @@
 import sys
 
 from astar import astar
-from cus1 import cus1
+from iddfs import iddfs
 from dfs import dfs
 from bfs import bfs
 from gbfs import greedy_best_first
@@ -15,8 +15,8 @@ SEARCH_METHODS = {
     "DFS": dfs,
     "BFS": bfs,
     "GBFS": greedy_best_first,
-    "AS": None,
-    "CUS1": None,
+    "AS": astar,
+    "CUS1": iddfs,
     "CUS2": ida_star,
 }
 
