@@ -3,12 +3,13 @@
 import sys
 
 from dfs import dfs
+from bfs import bfs
 from problem import load_problem
 
 
 SEARCH_METHODS = {
     "DFS": dfs,
-    "BFS": None,
+    "BFS": bfs,
     "GBFS": None,
     "AS": None,
     "CUS1": None,
