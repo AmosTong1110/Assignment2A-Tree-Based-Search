@@ -2,6 +2,8 @@
 
 import sys
 
+from astar import astar
+from cus1 import cus1
 from dfs import dfs
 from problem import load_problem
 
@@ -10,8 +12,8 @@ SEARCH_METHODS = {
     "DFS": dfs,
     "BFS": None,
     "GBFS": None,
-    "AS": None,
-    "CUS1": None,
+    "AS": astar,
+    "CUS1": cus1,
     "CUS2": None,
 }
 
@@ -45,7 +47,7 @@ def main():
 
     goal, nodes_created = SEARCH_METHODS[method_name](problem)
 
-    print(f"{filename} {method}")
+    print(f"{filename} {method_name}")
     if goal is None:
         print(f"None {nodes_created}")
         print()
