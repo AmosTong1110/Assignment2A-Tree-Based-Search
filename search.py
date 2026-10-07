@@ -3,6 +3,7 @@
 import sys
 
 from dfs import dfs
+from ida_star import ida_star
 from problem import load_problem
 
 
@@ -12,7 +13,7 @@ SEARCH_METHODS = {
     "GBFS": None,
     "AS": None,
     "CUS1": None,
-    "CUS2": None,
+    "CUS2": ida_star,
 }
 
 
