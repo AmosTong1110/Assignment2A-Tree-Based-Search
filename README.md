@@ -98,7 +98,7 @@ The program produces three lines:
 ```text
 <filename> <method>
 <destination-node-id-or-None> <nodes-created>
-<node-id-1> <node-id-2> ... <node-id-n>
+<node-id-1>--><node-id-2>-->...--><node-id-n>
 ```
 
 - Line 1: the input filename and the method used.
@@ -115,32 +115,32 @@ Using `tests/test01-sample.txt` (origin `2`, destinations `5` and `4`):
 $ python search.py tests/test01-sample.txt DFS
 tests/test01-sample.txt DFS
 5 7
-2 1 3 5
+2-->1-->3-->5
 
 $ python search.py tests/test01-sample.txt BFS
 tests/test01-sample.txt BFS
 4 10
-2 1 4
+2-->1-->4
 
 $ python search.py tests/test01-sample.txt GBFS
 tests/test01-sample.txt GBFS
 5 6
-2 3 5
+2-->3-->5
 
 $ python search.py tests/test01-sample.txt AS
 tests/test01-sample.txt AS
 4 8
-2 1 4
+2-->1-->4
 
 $ python search.py tests/test01-sample.txt CUS1
 tests/test01-sample.txt CUS1
 4 9
-2 1 4
+2-->1-->4
 
 $ python search.py tests/test01-sample.txt CUS2
 tests/test01-sample.txt CUS2
 4 21
-2 1 4
+2-->1-->4
 ```
 
 When no path exists (`tests/test02-no-path.txt`):
@@ -278,7 +278,7 @@ The program produces three lines:
 ```text
 <filename> <method>
 <destination-node-id-or-None> <nodes-created>
-<node-id-1> <node-id-2> ... <node-id-n>
+<node-id-1>--><node-id-2>-->...--><node-id-n>
 ```
 
 - Line 1: the input filename and the method used.
@@ -295,32 +295,32 @@ Using `tests/test01-sample.txt` (origin `2`, destinations `5` and `4`):
 $ python search.py tests/test01-sample.txt DFS
 tests/test01-sample.txt DFS
 5 7
-2 1 3 5
+2-->1-->3-->5
 
 $ python search.py tests/test01-sample.txt BFS
 tests/test01-sample.txt BFS
 4 10
-2 1 4
+2-->1-->4
 
 $ python search.py tests/test01-sample.txt GBFS
 tests/test01-sample.txt GBFS
 5 6
-2 3 5
+2-->3-->5
 
 $ python search.py tests/test01-sample.txt AS
 tests/test01-sample.txt AS
 4 8
-2 1 4
+2-->1-->4
 
 $ python search.py tests/test01-sample.txt CUS1
 tests/test01-sample.txt CUS1
 4 9
-2 1 4
+2-->1-->4
 
 $ python search.py tests/test01-sample.txt CUS2
 tests/test01-sample.txt CUS2
 4 18
-2 1 4
+2-->1-->4
 ```
 
 When no path exists (`tests/test02-no-path.txt`):
