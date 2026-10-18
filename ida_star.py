@@ -36,7 +36,9 @@ def ida_star(problem):
     origin_x, origin_y = problem.coordinates[problem.origin]
     start = Node(problem.origin, origin_x, origin_y)
 
-    nodes_created = 1
+    # The origin is counted at the start of every round (see below),
+    # so the counter starts at 0.
+    nodes_created = 0
     threshold = heuristic(start.node_id)
 
     # Track only nodes on the current route to prevent cycles.
@@ -91,6 +93,9 @@ def ida_star(problem):
 
     # Repeat the depth-first search with increasing cost limits.
     while True:
+        # Each round rebuilds the tree from the origin, so the origin is
+        # counted again in every round (same rule as IDDFS in iddfs.py).
+        nodes_created += 1
         goal, next_threshold = bounded_search(start, threshold)
 
         if goal is not None:
