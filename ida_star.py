@@ -1,4 +1,9 @@
-"""Iterative Deepening A* search for the route-finding problem."""
+"""Iterative Deepening A* search (CUS2) for the route-finding problem.
+
+CUS2 finds a path with the FEWEST MOVES. Here g(n) is the number of
+edges from the origin and h(n) is an admissible estimate of the number
+of edges still needed, so f(n) = g(n) + h(n) is measured in moves.
+"""
 
 import math
 
@@ -9,58 +14,48 @@ from heuristic import nearest_destination_distance
 def ida_star(problem):
     """Return (goal Node or None, number of Nodes created)."""
 
-    # Scale the distance heuristic so it cannot overestimate
-    # remaining cost when edge costs are smaller than distances.
-    scale = 1.0
-
+    # The longest edge (straight-line length) in the map. One move can
+    # never get closer to a destination by more than this distance.
+    max_edge_length = 0.0
     for source_id, neighbours in problem.edges.items():
         source_x, source_y = problem.coordinates[source_id]
-
-        for target_id, cost in neighbours:
-            if cost < 0:
-                raise ValueError("IDA* requires non-negative edge costs")
-
+        for target_id, _cost in neighbours:
             target_x, target_y = problem.coordinates[target_id]
-            distance = math.hypot(
-                target_x - source_x,
-                target_y - source_y,
+            max_edge_length = max(
+                max_edge_length,
+                math.hypot(target_x - source_x, target_y - source_y),
             )
 
-            if distance > 0:
-                scale = min(scale, cost / distance)
-
     def heuristic(node_id):
-        return scale * nearest_destination_distance(problem, node_id)
+        """Admissible lower bound on the number of moves still needed."""
+        if node_id in problem.destinations:
+            return 0
+        if max_edge_length == 0:
+            return 1  # every move covers no distance, so only "at least 1"
+        distance = nearest_destination_distance(problem, node_id)
+        # small epsilon avoids floating-point error, e.g. 3.0000000001
+        return max(1, math.ceil(distance / max_edge_length - 1e-9))
 
-    # Create the starting search-tree node.
     origin_x, origin_y = problem.coordinates[problem.origin]
     start = Node(problem.origin, origin_x, origin_y)
 
-    # The origin is counted at the start of every round (see below),
-    # so the counter starts at 0.
+    # Origin is counted at the start of every round (same rule as IDDFS).
     nodes_created = 0
-    threshold = heuristic(start.node_id)
-
-    # Track only nodes on the current route to prevent cycles.
+    threshold = heuristic(start.node_id)   # measured in MOVES
     path_ids = {start.node_id}
 
-    def bounded_search(current, limit):
+    def bounded_search(current, moves, limit):
         """Return (goal or None, smallest exceeded f-value)."""
         nonlocal nodes_created
 
-        f_value = current.path_cost + heuristic(current.node_id)
-
-        # This route exceeds the current cost limit.
+        f_value = moves + heuristic(current.node_id)   # moves, not cost
         if f_value > limit:
             return None, f_value
 
-        # A destination has been reached within the limit.
         if current.node_id in problem.destinations:
             return current, math.inf
 
         next_threshold = math.inf
-
-        # Explore neighbours in ascending node-ID order.
         neighbours = sorted(
             problem.edges.get(current.node_id, []),
             key=lambda edge: edge[0],
@@ -76,12 +71,12 @@ def ida_star(problem):
                 child_x,
                 child_y,
                 parent=current,
-                path_cost=current.path_cost + edge_cost,
+                path_cost=current.path_cost + edge_cost,  # still reported
             )
             nodes_created += 1
 
             path_ids.add(child_id)
-            goal, exceeded_value = bounded_search(child, limit)
+            goal, exceeded_value = bounded_search(child, moves + 1, limit)
             path_ids.remove(child_id)
 
             if goal is not None:
@@ -91,17 +86,13 @@ def ida_star(problem):
 
         return None, next_threshold
 
-    # Repeat the depth-first search with increasing cost limits.
     while True:
-        # Each round rebuilds the tree from the origin, so the origin is
-        # counted again in every round (same rule as IDDFS in iddfs.py).
         nodes_created += 1
-        goal, next_threshold = bounded_search(start, threshold)
+        goal, next_threshold = bounded_search(start, 0, threshold)
 
         if goal is not None:
             return goal, nodes_created
 
-        # No goal and no remaining branch beyond the limit.
         if next_threshold == math.inf:
             return None, nodes_created
 
