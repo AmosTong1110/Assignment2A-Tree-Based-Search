@@ -180,7 +180,7 @@ The research tests use `test01` to `test08`, which have more than one destinatio
 
 ## Test files
 
-The 15 inputs are grouped by goal count: **01-08 multiple goals; 09-15 a single goal**. See [the test guide](tests/README.md) for expected results, comparison cases, and correctness controls.
+The 15 inputs are grouped by goal count: **01-08 multiple goals; 09-15 a single goal**. 
 
 | File | Goals | What it checks |
 | --- | ---: | --- |
