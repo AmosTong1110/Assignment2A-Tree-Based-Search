@@ -98,7 +98,7 @@ The program produces three lines:
 ```text
 <filename> <method>
 <destination-node-id-or-None> <nodes-created>
-<node-id-1> <node-id-2> ... <node-id-n>
+<node-id-1>--><node-id-2>-->...--><node-id-n>
 ```
 
 - Line 1: the input filename and the method used.
@@ -115,32 +115,32 @@ Using `tests/test01-sample.txt` (origin `2`, destinations `5` and `4`):
 $ python search.py tests/test01-sample.txt DFS
 tests/test01-sample.txt DFS
 5 7
-2 1 3 5
+2-->1-->3-->5
 
 $ python search.py tests/test01-sample.txt BFS
 tests/test01-sample.txt BFS
 4 10
-2 1 4
+2-->1-->4
 
 $ python search.py tests/test01-sample.txt GBFS
 tests/test01-sample.txt GBFS
 5 6
-2 3 5
+2-->3-->5
 
 $ python search.py tests/test01-sample.txt AS
 tests/test01-sample.txt AS
 4 8
-2 1 4
+2-->1-->4
 
 $ python search.py tests/test01-sample.txt CUS1
 tests/test01-sample.txt CUS1
 4 9
-2 1 4
+2-->1-->4
 
 $ python search.py tests/test01-sample.txt CUS2
 tests/test01-sample.txt CUS2
 4 21
-2 1 4
+2-->1-->4
 ```
 
 When no path exists (`tests/test02-no-path.txt`):
@@ -154,25 +154,25 @@ None 2
 
 ## Test files
 
-The `tests/` folder contains input files covering common situations:
+The 15 inputs are grouped by goal count: **01–08 multiple goals; 09–15 a single goal**. See [the test guide](tests/README.md) for expected results, comparison cases, and correctness controls.
 
-| File | What it checks |
-| ---- | -------------- |
-| `test01-sample.txt` | The sample problem from the assignment |
-| `test02-no-path.txt` | No route to any destination |
-| `test03-cycle.txt` | A cycle in the graph |
-| `test04-depth-vs-cost.txt` | Shallow path vs. cheap path |
-| `test05-cycle-dead-end.txt` | A cycle combined with a dead end |
-| `test06-multiple-goals.txt` | More than one destination |
-| `test07-simple-line.txt` | A simple straight line of nodes |
-| `test08-branching-tree.txt` | A branching tree |
-| `test09-cost-vs-moves.txt` | Fewest moves vs. lowest cost |
-| `test10-origin-is-goal.txt` | The origin is already a destination |
-| `test11-one-way-unreachable-goal.txt` | One-way edges make a goal unreachable |
-| `test12-one-way-shortcut.txt` | A one-way shortcut |
-| `test13-heuristic_trap.txt` | A heuristic that misleads greedy search |
-| `test14-expensive_detour.txt` | An expensive detour |
-| `test15-branching_dead_ends.txt` | Branching with many dead ends |
+| File | Goals | What it checks |
+| --- | ---: | --- |
+| `test01-sample.txt` | 2 | Original assignment sample; preserved byte for byte. |
+| `test02-no-path.txt` | 2 | No-path control: neither goal is reachable; the origin component contains a cycle. |
+| `test03-cycle.txt` | 2 | Cycles with three route choices: DFS takes a deep route costing 13; minimum-move methods take an expensive shortcut costing 22; AS reaches another route costing 5. |
+| `test04-depth-vs-cost.txt` | 2 | Two goals: a two-move route costs 20, while a four-move route costs 4. |
+| `test05-cycle-dead-end.txt` | 2 | A cyclic dead end and two reachable goals; minimum moves and minimum cost select different goals. |
+| `test06-multiple-goals.txt` | 3 | Tie control: shuffled input, nonconsecutive IDs, and three equal-cost goals; the expected selected goal is 20. |
+| `test07-origin-is-goal.txt` | 3 | Zero-step control: origin 4 is one of three goals; expect path [4], cost 0, moves 0, and one created node. |
+| `test08-one-way-unreachable-goal.txt` | 3 | Only goal 9 is reachable; goals 7 and 8 have links in the wrong direction. A two-move shortcut costs 11; the three-move route costs 3. |
+| `test09-cost-vs-moves.txt` | 1 | One goal: the two-move route costs 20 and the three-move route costs 3. |
+| `test10-simple-line.txt` | 1 | Unique-route control: a five-edge directed line with unequal weights; expect the same route and cost from every method. |
+| `test11-branching-tree.txt` | 1 | Branching-tree control: one solution path and several dead leaves; compare created nodes even when all solution costs match. |
+| `test12-one-way-shortcut.txt` | 1 | Converging directed branches and a shortcut: DFS, minimum-move methods, and AS produce three different costs. |
+| `test13-heuristic_trap.txt` | 1 | Greedy trap: the geometrically tempting route costs 55, while the longer alternative costs 9. |
+| `test14-expensive_detour.txt` | 1 | A direct edge costs 30; a five-move detour costs 6. |
+| `test15-branching_dead_ends.txt` | 1 | A self-loop, cycles, and a dead branch. A new three-move exit from the cycle costs 23; the four-move alternative costs 4. |
 
 To run every method on one test file (macOS / Linux):
 
@@ -278,7 +278,7 @@ The program produces three lines:
 ```text
 <filename> <method>
 <destination-node-id-or-None> <nodes-created>
-<node-id-1> <node-id-2> ... <node-id-n>
+<node-id-1>--><node-id-2>-->...--><node-id-n>
 ```
 
 - Line 1: the input filename and the method used.
@@ -295,32 +295,32 @@ Using `tests/test01-sample.txt` (origin `2`, destinations `5` and `4`):
 $ python search.py tests/test01-sample.txt DFS
 tests/test01-sample.txt DFS
 5 7
-2 1 3 5
+2-->1-->3-->5
 
 $ python search.py tests/test01-sample.txt BFS
 tests/test01-sample.txt BFS
 4 10
-2 1 4
+2-->1-->4
 
 $ python search.py tests/test01-sample.txt GBFS
 tests/test01-sample.txt GBFS
 5 6
-2 3 5
+2-->3-->5
 
 $ python search.py tests/test01-sample.txt AS
 tests/test01-sample.txt AS
 4 8
-2 1 4
+2-->1-->4
 
 $ python search.py tests/test01-sample.txt CUS1
 tests/test01-sample.txt CUS1
 4 9
-2 1 4
+2-->1-->4
 
 $ python search.py tests/test01-sample.txt CUS2
 tests/test01-sample.txt CUS2
 4 18
-2 1 4
+2-->1-->4
 ```
 
 When no path exists (`tests/test02-no-path.txt`):
@@ -334,25 +334,25 @@ None 2
 
 ## Test files
 
-The `tests/` folder contains input files covering common situations:
+The 15 inputs are grouped by goal count: **01–08 multiple goals; 09–15 a single goal**. See [the test guide](tests/README.md) for expected results, comparison cases, and correctness controls.
 
-| File | What it checks |
-| ---- | -------------- |
-| `test01-sample.txt` | The sample problem from the assignment |
-| `test02-no-path.txt` | No route to any destination |
-| `test03-cycle.txt` | A cycle in the graph |
-| `test04-depth-vs-cost.txt` | Shallow path vs. cheap path |
-| `test05-cycle-dead-end.txt` | A cycle combined with a dead end |
-| `test06-multiple-goals.txt` | More than one destination |
-| `test07-simple-line.txt` | A simple straight line of nodes |
-| `test08-branching-tree.txt` | A branching tree |
-| `test09-cost-vs-moves.txt` | Fewest moves vs. lowest cost |
-| `test10-origin-is-goal.txt` | The origin is already a destination |
-| `test11-one-way-unreachable-goal.txt` | One-way edges make a goal unreachable |
-| `test12-one-way-shortcut.txt` | A one-way shortcut |
-| `test13-heuristic_trap.txt` | A heuristic that misleads greedy search |
-| `test14-expensive_detour.txt` | An expensive detour |
-| `test15-branching_dead_ends.txt` | Branching with many dead ends |
+| File | Goals | What it checks |
+| --- | ---: | --- |
+| `test01-sample.txt` | 2 | Original assignment sample; preserved byte for byte. |
+| `test02-no-path.txt` | 2 | No-path control: neither goal is reachable; the origin component contains a cycle. |
+| `test03-cycle.txt` | 2 | Cycles with three route choices: DFS takes a deep route costing 13; minimum-move methods take an expensive shortcut costing 22; AS reaches another route costing 5. |
+| `test04-depth-vs-cost.txt` | 2 | Two goals: a two-move route costs 20, while a four-move route costs 4. |
+| `test05-cycle-dead-end.txt` | 2 | A cyclic dead end and two reachable goals; minimum moves and minimum cost select different goals. |
+| `test06-multiple-goals.txt` | 3 | Tie control: shuffled input, nonconsecutive IDs, and three equal-cost goals; the expected selected goal is 20. |
+| `test07-origin-is-goal.txt` | 3 | Zero-step control: origin 4 is one of three goals; expect path [4], cost 0, moves 0, and one created node. |
+| `test08-one-way-unreachable-goal.txt` | 3 | Only goal 9 is reachable; goals 7 and 8 have links in the wrong direction. A two-move shortcut costs 11; the three-move route costs 3. |
+| `test09-cost-vs-moves.txt` | 1 | One goal: the two-move route costs 20 and the three-move route costs 3. |
+| `test10-simple-line.txt` | 1 | Unique-route control: a five-edge directed line with unequal weights; expect the same route and cost from every method. |
+| `test11-branching-tree.txt` | 1 | Branching-tree control: one solution path and several dead leaves; compare created nodes even when all solution costs match. |
+| `test12-one-way-shortcut.txt` | 1 | Converging directed branches and a shortcut: DFS, minimum-move methods, and AS produce three different costs. |
+| `test13-heuristic_trap.txt` | 1 | Greedy trap: the geometrically tempting route costs 55, while the longer alternative costs 9. |
+| `test14-expensive_detour.txt` | 1 | A direct edge costs 30; a five-move detour costs 6. |
+| `test15-branching_dead_ends.txt` | 1 | A self-loop, cycles, and a dead branch. A new three-move exit from the cycle costs 23; the four-move alternative costs 4. |
 
 To run every method on one test file (macOS / Linux):
 

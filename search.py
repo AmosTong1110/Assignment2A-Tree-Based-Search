@@ -56,7 +56,7 @@ def main():
         print()
     else:
         print(f"{goal.node_id} {nodes_created}")
-        print(" ".join(str(node_id) for node_id in goal.path()))
+        print("-->".join(str(node_id) for node_id in goal.path()))
     return 0
 
 
